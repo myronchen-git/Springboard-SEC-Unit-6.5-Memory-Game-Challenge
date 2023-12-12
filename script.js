@@ -1,17 +1,8 @@
 const gameContainer = document.getElementById("game");
 
-const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-];
+const UNIQUE_COLORS = ["red", "blue", "green", "orange", "purple"];
+// https://quickref.me/repeat-an-array.html
+const COLORS = [].concat(...Array(2).fill(UNIQUE_COLORS));
 
 // Here is a helper function to shuffle an array.
 // It returns the same array with values shuffled.
@@ -36,7 +27,7 @@ function shuffle(array) {
   return array;
 }
 
-let shuffledColors = shuffle(COLORS);
+const shuffledColors = shuffle(COLORS);
 
 // This function loops over the array of colors.
 // It creates a new div and gives it a class with the value of the color.
