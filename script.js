@@ -8,6 +8,10 @@ let card1 = null;
 let card2 = null;
 let pairsFound = 0;
 
+let score = 0;
+const bestScore = localStorage.getItem("lowestScore");
+document.getElementById("bestScore").innerText = bestScore;
+
 // Here is a helper function to shuffle an array.
 // It returns the same array with values shuffled.
 // It is based on an algorithm called Fisher Yates, if you want to research more.
@@ -63,6 +67,7 @@ function handleCardClick(event) {
   if (!t.classList.contains("revealed") && card2 === null) {
     t.classList.add("revealed");
     t.style.backgroundColor = t.getAttribute("color");
+    updateScore();
 
     if (card1 === null) {
       card1 = t;
@@ -96,7 +101,17 @@ function compareCards() {
 function checkWin() {
   if (pairsFound >= UNIQUE_COLORS.length) {
     alert("WIN");
+    storeBestScore();
   }
+}
+
+function updateScore() {
+  document.getElementById("score").innerText = ++score;
+}
+
+function storeBestScore() {
+  if (bestScore === null || score < bestScore)
+    localStorage.setItem("lowestScore", score);
 }
 
 // When the DOM loads
