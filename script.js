@@ -4,6 +4,10 @@ const UNIQUE_COLORS = ["red", "blue", "green", "orange", "purple"];
 // https://quickref.me/repeat-an-array.html
 const COLORS = [].concat(...Array(2).fill(UNIQUE_COLORS));
 
+let card1 = null;
+let card2 = null;
+let pairsFound = 0;
+
 // Here is a helper function to shuffle an array.
 // It returns the same array with values shuffled.
 // It is based on an algorithm called Fisher Yates, if you want to research more.
@@ -38,7 +42,7 @@ function createDivsForColors(colorArray) {
     const newDiv = document.createElement("div");
 
     // Give it a class attribute for the value we are looping over
-    newDiv.classList.add(color);
+    newDiv.setAttribute("color", color);
 
     // Call a function handleCardClick when a div is clicked on
     newDiv.addEventListener("click", handleCardClick);
@@ -50,8 +54,49 @@ function createDivsForColors(colorArray) {
 
 // TODO: Implement this function!
 function handleCardClick(event) {
+  const t = event.target;
   // You can use event.target to see which element was clicked
-  console.log("you just clicked", event.target);
+  console.log("You just clicked", t);
+
+  // If card1 is not set, then just set card1.  If card1 is set, then set card2, wait, and check if card1 matches card2.
+  // Lastly, check if the game is over.
+  if (!t.classList.contains("revealed") && card2 === null) {
+    t.classList.add("revealed");
+    t.style.backgroundColor = t.getAttribute("color");
+
+    if (card1 === null) {
+      card1 = t;
+    } else {
+      card2 = t;
+
+      setTimeout(() => {
+        compareCards();
+
+        card1 = null;
+        card2 = null;
+
+        checkWin();
+      }, 1000);
+    }
+  }
+}
+
+// If cards match, then leave them face up and increment the number of matching pairs found, else return them face down.
+function compareCards() {
+  if (card1.getAttribute("color") === card2.getAttribute("color")) {
+    pairsFound++;
+  } else {
+    for (let card of [card1, card2]) {
+      card.style.backgroundColor = "";
+      card.classList.remove("revealed");
+    }
+  }
+}
+
+function checkWin() {
+  if (pairsFound >= UNIQUE_COLORS.length) {
+    alert("WIN");
+  }
 }
 
 // When the DOM loads
