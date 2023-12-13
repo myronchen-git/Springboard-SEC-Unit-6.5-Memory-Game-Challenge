@@ -8,9 +8,8 @@ let card1 = null;
 let card2 = null;
 let pairsFound = 0;
 
-let score = 0;
-const bestScore = localStorage.getItem("lowestScore");
-document.getElementById("bestScore").innerText = bestScore;
+let score;
+let bestScore;
 
 // Here is a helper function to shuffle an array.
 // It returns the same array with values shuffled.
@@ -34,8 +33,6 @@ function shuffle(array) {
 
   return array;
 }
-
-const shuffledColors = shuffle(COLORS);
 
 // This function loops over the array of colors.
 // It creates a new div and gives it a class with the value of the color.
@@ -67,7 +64,7 @@ function handleCardClick(event) {
   if (!t.classList.contains("revealed") && card2 === null) {
     t.classList.add("revealed");
     t.style.backgroundColor = t.getAttribute("color");
-    updateScore();
+    setScore(++score);
 
     if (card1 === null) {
       card1 = t;
@@ -102,11 +99,12 @@ function checkWin() {
   if (pairsFound >= UNIQUE_COLORS.length) {
     alert("WIN");
     storeBestScore();
+    gameContainer.append(createRestartButton());
   }
 }
 
-function updateScore() {
-  document.getElementById("score").innerText = ++score;
+function setScore(newScore) {
+  document.getElementById("score").innerText = newScore;
 }
 
 function storeBestScore() {
@@ -114,5 +112,27 @@ function storeBestScore() {
     localStorage.setItem("lowestScore", score);
 }
 
-// When the DOM loads
-createDivsForColors(shuffledColors);
+function displayBestScore() {
+  bestScore = localStorage.getItem("lowestScore");
+  document.getElementById("bestScore").innerText = bestScore;
+}
+
+function startGame() {
+  pairsFound = 0;
+  score = 0;
+  setScore(score);
+  displayBestScore();
+
+  gameContainer.innerHTML = "";
+  createDivsForColors(shuffle(COLORS));
+}
+
+function createRestartButton() {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.innerText = "Restart";
+  b.addEventListener("click", startGame);
+  return b;
+}
+
+document.getElementById("startButton").addEventListener("click", startGame);
