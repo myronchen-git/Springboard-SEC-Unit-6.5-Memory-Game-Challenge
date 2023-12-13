@@ -98,7 +98,7 @@ function compareCards() {
 function checkWin() {
   if (pairsFound >= UNIQUE_COLORS.length) {
     alert("WIN");
-    storeBestScore();
+    checkAndStoreBestScore(score);
     gameContainer.append(createRestartButton());
   }
 }
@@ -107,9 +107,9 @@ function setScore(newScore) {
   document.getElementById("score").innerText = newScore;
 }
 
-function storeBestScore() {
-  if (bestScore === null || score < bestScore)
-    localStorage.setItem("lowestScore", score);
+function checkAndStoreBestScore(currentScore) {
+  if (bestScore === null || currentScore < bestScore)
+    localStorage.setItem("lowestScore", currentScore);
 }
 
 function displayBestScore() {
