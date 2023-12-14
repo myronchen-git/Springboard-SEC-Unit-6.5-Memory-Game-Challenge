@@ -99,7 +99,7 @@ function checkWin() {
   if (pairsFound >= UNIQUE_COLORS.length) {
     alert("WIN");
     checkAndStoreBestScore(score);
-    gameContainer.append(createRestartButton());
+    document.getElementById("buttonArea").append(createRestartButton());
   }
 }
 
@@ -124,6 +124,8 @@ function startGame() {
   displayBestScore();
 
   gameContainer.innerHTML = "";
+  removeButton();
+
   createDivsForColors(shuffle(COLORS));
 }
 
@@ -133,6 +135,14 @@ function createRestartButton() {
   b.innerText = "Restart";
   b.addEventListener("click", startGame);
   return b;
+}
+
+function removeButton() {
+  const b = document.getElementById("buttonArea").firstElementChild;
+
+  if (b !== null) {
+    b.remove();
+  }
 }
 
 document.getElementById("startButton").addEventListener("click", startGame);

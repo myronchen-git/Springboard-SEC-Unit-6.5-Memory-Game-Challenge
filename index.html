@@ -6,12 +6,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
-    <div>Score: <span id="score">0</span></div>
-    <div>Best Score: <span id="bestScore"></span></div>
-    <div id="game">
-      <button type="button" id="startButton">Start</button>
+    <h1 class="game-title">Memory Game!</h1>
+    <div class="info-and-control-bar">
+      <div class="scoreArea">
+        <span>Score: <span id="score">0</span></span>
+      </div>
+      <div id="buttonArea">
+        <button type="button" id="startButton">Start</button>
+      </div>
+      <div class="scoreArea">
+        <span>Best Score: <span id="bestScore"></span></span>
+      </div>
     </div>
-    <script src="script.js"></script>
+    <div id="game">
+    </div>
   </body>
+  <script src="script.js"></script>
 </html>
